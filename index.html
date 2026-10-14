@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBFAF8">
+<title>杨美郡 — 校园新媒体创作者</title>
+<style>
+:root{
+  --bg:#FBFAF8; --paper:#FFFFFF;
+  --ink:#171614; --ink-2:#4A4642; --muted:#9C968D;
+  --line:#E9E5DE; --line-2:#F2EFE9;
+  --accent:#8B6F47;
+  --serif:Georgia,"Times New Roman","Songti SC","Noto Serif SC","SimSun",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  --wrap:1200px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:var(--sans); background:var(--bg); color:var(--ink);
+  font-size:15px; line-height:1.7; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden; letter-spacing:.01em;
+}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+ul,ol{list-style:none}
+section{scroll-margin-top:72px}
+.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:0 32px}
+
+/* 占位渐变（图片加载失败时显示） */
+.ph{
+  position:absolute;inset:0;z-index:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  text-align:center;padding:20px;
+  background:linear-gradient(150deg,var(--g1,#F3F0EA) 0%,var(--g2,#E4DFD5) 100%);
+  color:rgba(23,22,20,.28);
+  font-size:13px;font-weight:500;letter-spacing:.16em;line-height:1.6;
+}
+
+/* ★ 通用封面图类（所有图片都用这个）★ */
+.cover{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;
+  transition:transform .7s cubic-bezier(.2,.7,.3,1);
+}
+
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:72px;
+  background:rgba(251,250,248,.82);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid transparent;transition:border-color .35s,background .35s;
+}
+.nav.on{border-bottom-color:var(--line);background:rgba(251,250,248,.96)}
+.nav__in{max-width:var(--wrap);margin:0 auto;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:baseline;gap:10px;white-space:nowrap}
+.logo b{font-family:var(--serif);font-size:19px;font-weight:400;letter-spacing:.04em}
+.logo span{font-size:10px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+.menu{display:flex;align-items:center;gap:30px}
+.menu a{font-size:13.5px;color:var(--ink-2);position:relative;transition:color .2s}
+.menu a::after{content:"";position:absolute;left:0;right:100%;bottom:-4px;height:1px;background:var(--ink);transition:right .3s}
+.menu a:hover{color:var(--ink)}
+.menu a:hover::after{right:0}
+.menu .cta{
+  font-size:13px;padding:9px 20px;border:1px solid var(--ink);
+  color:var(--ink);transition:background .25s,color .25s;letter-spacing:.05em;
+}
+.menu .cta::after{display:none}
+.menu .cta:hover{background:var(--ink);color:#fff}
+.burger{display:none;width:42px;height:42px;align-items:center;justify-content:center;flex-direction:column;gap:5px}
+.burger span{display:block;width:20px;height:1px;background:var(--ink);transition:transform .3s,opacity .2s}
+.burger.on span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.on span:nth-child(2){opacity:0}
+.burger.on span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+.mmenu{
+  position:fixed;top:72px;left:0;right:0;bottom:0;z-index:99;background:var(--bg);
+  padding:24px 32px 48px;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  opacity:0;visibility:hidden;transform:translateY(-8px);
+  transition:opacity .28s,transform .28s,visibility .28s;
+}
+.mmenu.on{opacity:1;visibility:visible;transform:none}
+.mmenu a{display:block;padding:18px 0;font-family:var(--serif);font-size:22px;font-weight:400;border-bottom:1px solid var(--line);color:var(--ink-2)}
+.mmenu a:active{color:var(--accent)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:14px 30px;font-size:13.5px;font-weight:500;letter-spacing:.08em;
+  transition:background .25s,color .25s,border-color .25s,transform .25s;
+  white-space:nowrap;
+}
+.btn-p{background:var(--ink);color:#fff;border:1px solid var(--ink)}
+.btn-p:hover{background:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
+.btn-g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-g:hover{border-color:var(--ink);transform:translateY(-1px)}
+.btn-t{background:transparent;color:var(--ink-2);border:1px solid transparent;padding-left:0;padding-right:0}
+.btn-t:hover{color:var(--accent)}
+
+.eyebrow{
+  display:inline-block;font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;margin-bottom:20px;
+}
+.h2{
+  font-family:var(--serif);font-size:clamp(28px,3.6vw,40px);font-weight:400;
+  line-height:1.35;letter-spacing:.02em;
+}
+.sub{margin-top:14px;color:var(--muted);font-size:14px;max-width:560px;line-height:1.75}
+.head{margin-bottom:56px}
+
+.hero{padding:calc(72px + 96px) 0 96px;position:relative}
+.hero__grid{display:grid;grid-template-columns:1.35fr 1fr;gap:80px;align-items:end}
+.hero__kicker{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-bottom:28px}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(44px,7.4vw,88px);font-weight:400;
+  line-height:1.06;letter-spacing:.01em;margin-bottom:28px;
+}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero__role{
+  font-family:var(--serif);font-size:clamp(16px,1.8vw,21px);color:var(--ink-2);
+  font-weight:400;line-height:1.7;letter-spacing:.02em;margin-bottom:32px;
+}
+.hero__rule{width:64px;height:1px;background:var(--ink);margin-bottom:32px}
+.hero__desc{color:var(--ink-2);font-size:15px;line-height:1.85;max-width:520px;margin-bottom:40px}
+.hero__btns{display:flex;flex-wrap:wrap;gap:14px}
+
+.hero__card{position:relative}
+.hero__photo{
+  position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--line-2);
+  border:1px solid var(--line);
+}
+.hero__cap{
+  margin-top:16px;font-size:11px;letter-spacing:.18em;color:var(--muted);
+  text-transform:uppercase;display:flex;justify-content:space-between;
+}
+
+.figures{
+  margin-top:88px;padding-top:40px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:32px;
+}
+.fig b{
+  display:block;font-family:var(--serif);font-size:clamp(28px,3.4vw,40px);
+  font-weight:400;line-height:1.1;letter-spacing:.01em;color:var(--ink);
+}
+.fig span{display:block;margin-top:8px;font-size:11.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+
+.sec{padding:112px 0}
+.sec--tint{background:#F7F5F0}
+.grp{margin-bottom:72px}
+.grp:last-child{margin-bottom:0}
+.grp__hd{
+  display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+  padding-bottom:18px;margin-bottom:32px;border-bottom:1px solid var(--ink);
+}
+.grp__hd h3{font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:.04em}
+.grp__hd span{font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px 28px}
+.card{display:flex;flex-direction:column;cursor:pointer}
+.card .frame{
+  position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--line-2);
+  border:1px solid var(--line);transition:border-color .3s;
+}
+.card--v .frame{aspect-ratio:4/3}
+.card:hover .frame{border-color:#D8D2C6}
+.card:hover .cover{transform:scale(1.045)}
+.card .tag{
+  position:absolute;top:0;left:0;z-index:2;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  background:var(--paper);color:var(--ink-2);padding:7px 13px;
+}
+.card .play{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,.9);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .3s,background .3s;
+}
+.card .play::after{
+  content:"";width:0;height:0;margin-left:3px;
+  border-left:11px solid var(--ink);
+  border-top:7px solid transparent;border-bottom:7px solid transparent;
+}
+.card:hover .play{transform:translate(-50%,-50%) scale(1.08);background:#fff}
+.card .meta{padding:18px 2px 0}
+.card .meta h4{
+  font-family:var(--serif);font-size:16.5px;font-weight:400;line-height:1.55;
+  letter-spacing:.01em;margin-bottom:8px;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card .meta p{
+  font-size:13px;color:var(--muted);line-height:1.7;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  margin-bottom:12px;
+}
+.card .duty{
+  font-size:11.5px;letter-spacing:.06em;color:var(--accent);
+  padding-bottom:12px;border-bottom:1px solid var(--line-2);
+}
+.card .go{
+  display:flex;align-items:center;gap:8px;margin-top:12px;
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);
+}
+.card .go i{font-style:normal;transition:transform .3s}
+.card:hover .go i{transform:translateX(5px)}
+
+.card .frame video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  z-index:4;background:#000;
+}
+
+.case{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-bottom:120px}
+.case:last-child{margin-bottom:0}
+.case--r .case__media{order:2}
+.case__media{
+  position:relative;aspect-ratio:4/3;overflow:hidden;
+  border:1px solid var(--line);background:var(--line-2);
+}
+.case__no{
+  font-family:var(--serif);font-size:13px;letter-spacing:.3em;color:var(--accent);
+  margin-bottom:18px;
+}
+.case h3{
+  font-family:var(--serif);font-size:clamp(22px,2.6vw,30px);font-weight:400;
+  line-height:1.45;letter-spacing:.02em;margin-bottom:20px;
+}
+.case p{color:var(--ink-2);font-size:14.5px;line-height:1.9;margin-bottom:24px}
+.lbl{
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line);
+}
+.duty li{
+  position:relative;padding-left:20px;font-size:14px;color:var(--ink-2);
+  line-height:1.85;margin-bottom:8px;
+}
+.duty li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+.nums{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  padding:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  margin-bottom:28px;
+}
+.nums b{
+  display:block;font-family:var(--serif);font-size:clamp(22px,2.6vw,30px);
+  font-weight:400;line-height:1.1;
+}
+.nums span{display:block;margin-top:6px;font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+
+.about{display:grid;grid-template-columns:1.15fr 1fr;gap:88px;align-items:start}
+.about__txt p{font-size:15px;color:var(--ink-2);line-height:1.95;margin-bottom:22px}
+.about__quote{
+  font-family:var(--serif);font-size:19px;font-style:italic;color:var(--ink);
+  line-height:1.75;padding-left:24px;border-left:1px solid var(--accent);
+  margin-top:36px;
+}
+.about__cards{display:grid;gap:0}
+.about__card{padding:28px 0;border-bottom:1px solid var(--line)}
+.about__card:first-child{border-top:1px solid var(--line)}
+.about__card h4{
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
+  font-weight:500;margin-bottom:12px;
+}
+.about__card p{font-size:14.5px;color:var(--ink-2);line-height:1.8}
+
+.tl{position:relative;padding-left:32px}
+.tl::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:1px;background:var(--line)}
+.tl__i{position:relative;padding-bottom:8px}
+.tl__i::before{
+  content:"";position:absolute;left:-32px;top:10px;width:9px;height:9px;
+  border-radius:50%;background:var(--bg);border:1px solid var(--accent);
+  transform:translateX(-4px);
+}
+.tl__hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;margin-bottom:8px}
+.tl__hd h3{font-family:var(--serif);font-size:20px;font-weight:400;letter-spacing:.02em}
+.tl__hd span{font-size:11px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase}
+.tl__sub{font-size:13px;color:var(--muted);margin-bottom:28px}
+.tl__b{margin-bottom:26px}
+.tl__b:last-child{margin-bottom:0}
+.tl__b h4{
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
+  font-weight:600;margin-bottom:9px;
+}
+.tl__b p{font-size:14.5px;color:var(--ink-2);line-height:1.9}
+
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
+.skill{padding:36px 0;border-bottom:1px solid var(--line)}
+.skill:nth-child(odd){padding-right:48px}
+.skill:nth-child(even){padding-left:48px;border-left:1px solid var(--line)}
+.skill h3{
+  font-family:var(--serif);font-size:17px;font-weight:400;letter-spacing:.04em;
+  margin-bottom:18px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{
+  font-size:12px;letter-spacing:.04em;color:var(--ink-2);
+  border:1px solid var(--line);padding:6px 14px;background:var(--paper);
+}
+.chips span.k{border-color:var(--accent);color:var(--accent)}
+.honors{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0;
+  border-top:1px solid var(--line);
+}
+.honor{
+  padding:22px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink-2);
+  display:flex;align-items:baseline;gap:12px;
+}
+.honor::before{content:"◆";font-size:8px;color:var(--accent);flex:none}
+
+.resume{background:var(--paper);border:1px solid var(--line);padding:clamp(32px,5vw,72px)}
+.resume__in{max-width:860px;margin:0 auto}
+.rhead{
+  display:flex;align-items:center;gap:32px;padding-bottom:32px;
+  border-bottom:1px solid var(--ink);margin-bottom:36px;
+}
+.rphoto{
+  width:92px;height:122px;flex:none;overflow:hidden;border:1px solid var(--line);
+  position:relative;background:var(--line-2);
+}
+.rhead h3{font-family:var(--serif);font-size:34px;font-weight:400;letter-spacing:.06em;line-height:1.2}
+.rhead p{font-size:13px;color:var(--muted);margin-top:8px;letter-spacing:.04em}
+.rsec{margin-bottom:30px}
+.rsec h4{
+  font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
+  font-weight:600;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:16px;
+}
+.rsec p,.rsec li{font-size:14px;color:var(--ink-2);line-height:1.9}
+.rsec li{position:relative;padding-left:18px;margin-bottom:6px}
+.rsec li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+.rbtns{display:flex;flex-wrap:wrap;gap:14px;margin-top:44px;justify-content:center}
+
+.contact{text-align:center;padding:8px 0 0}
+.contact h2{font-family:var(--serif);font-size:clamp(26px,3.4vw,38px);font-weight:400;letter-spacing:.03em;margin-bottom:16px}
+.contact>p{color:var(--muted);font-size:14px;margin-bottom:48px}
+.citems{display:flex;flex-wrap:wrap;gap:0;justify-content:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.citem{
+  padding:26px 40px;font-size:14px;color:var(--ink-2);letter-spacing:.04em;
+  border-right:1px solid var(--line);transition:background .25s,color .25s;
+  display:inline-flex;align-items:center;gap:10px;word-break:break-all;
+}
+.citem:last-child{border-right:0}
+.citem:hover{background:var(--paper);color:var(--accent)}
+
+.footer{
+  padding:48px 0 56px;text-align:center;font-size:11.5px;
+  letter-spacing:.18em;color:var(--muted);text-transform:uppercase;
+}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.7,.3,1),transform .9s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+}
+
+@media (max-width:1080px){
+  .hero__grid{grid-template-columns:1fr 340px;gap:56px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:28px 24px}
+  .case{gap:48px;margin-bottom:96px}
+  .about{gap:56px}
+}
+@media (max-width:900px){
+  .menu{display:none}
+  .burger{display:flex}
+  .wrap{padding:0 24px}
+  .nav__in{padding:0 24px}
+  .hero{padding:calc(72px + 56px) 0 72px}
+  .hero__grid{grid-template-columns:1fr;gap:48px}
+  .hero__photo{max-width:340px;aspect-ratio:4/5}
+  .figures{grid-template-columns:repeat(2,1fr);gap:28px;margin-top:64px}
+  .sec{padding:80px 0}
+  .case{grid-template-columns:1fr;gap:32px;margin-bottom:72px}
+  .case--r .case__media{order:0}
+  .about{grid-template-columns:1fr;gap:40px}
+  .skills{grid-template-columns:1fr}
+  .skill:nth-child(odd),.skill:nth-child(even){padding:28px 0;border-left:0}
+  .nums{grid-template-columns:repeat(3,1fr);gap:16px}
+}
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  .nav__in{padding:0 20px}
+  .grid{grid-template-columns:1fr;gap:32px}
+  .card .frame{aspect-ratio:4/5}
+  .card--v .frame{aspect-ratio:16/9}
+  .hero__btns .btn{flex:1 1 100%}
+  .figures{grid-template-columns:repeat(2,1fr)}
+  .nums{grid-template-columns:repeat(2,1fr);gap:20px}
+  .citems{flex-direction:column}
+  .citem{border-right:0;border-bottom:1px solid var(--line);justify-content:center;padding:22px 20px}
+  .citem:last-child{border-bottom:0}
+  .rhead{flex-direction:column;align-items:flex-start;gap:20px}
+  .rbtns .btn{flex:1 1 100%}
+  .tl{padding-left:24px}
+  .tl__i::before{left:-24px}
+}
+
+@media print{
+  .nav,.mmenu,.hero,.sec--proj,.sec--case,.sec--about,.sec--exp,.sec--skill,
+  .sec--contact,.footer,.rbtns,.head{display:none!important}
+  body{background:#fff;font-size:11px}
+  .sec{padding:0!important}
+  .resume{border:0;padding:0}
+  .resume__in{max-width:none}
+  .rv{opacity:1!important;transform:none!important}
+  a{color:#000!important}
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a class="logo" href="#top"><b>杨美郡</b><span>Portfolio</span></a>
+    <nav class="menu">
+      <a href="#work">作品</a>
+      <a href="#cases">项目</a>
+      <a href="#about">关于</a>
+      <a href="#exp">经历</a>
+      <a href="#skills">技能</a>
+      <a class="cta" href="#contact">联系我</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mmenu" id="mmenu">
+  <a href="#work">作品</a>
+  <a href="#cases">项目</a>
+  <a href="#about">关于</a>
+  <a href="#exp">经历</a>
+  <a href="#skills">技能</a>
+  <a href="#resume">简历</a>
+  <a href="#contact">联系</a>
+</div>
+
+<main id="top">
+
+<!-- ============ 首屏 ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero__grid">
+      <div class="rv">
+        <p class="hero__kicker">Portfolio — 2026</p>
+        <h1>杨美郡<br><em>校园新媒体</em>创作者</h1>
+        <p class="hero__role">小红书内容策划 ｜ 图文视觉设计<br>短视频制作 ｜ 团队统筹</p>
+        <div class="hero__rule"></div>
+        <p class="hero__desc">
+          三峡大学汉语言文学专业本科生，深耕校园新媒体领域。熟悉小红书平台传播逻辑，
+          具备从选题策划、图文设计到短视频制作的完整内容生产经验，希望能加入中国大学生在线小红书工作室。
+        </p>
+        <div class="hero__btns">
+          <a class="btn btn-p" href="#work">观看作品</a>
+          <a class="btn btn-g" href="#cases">查看项目</a>
+          <a class="btn btn-t" href="#resume">查看简历 →</a>
+        </div>
+      </div>
+
+      <div class="hero__card rv">
+        <div class="hero__photo" style="--g1:#F1EDE6;--g2:#E0D9CC">
+          <span class="ph">证件照</span>
+          <img class="cover" src="images/zhengjianzhao.jpg" alt="杨美郡证件照" onerror="this.style.display='none'">
+        </div>
+        <div class="hero__cap"><span>Yang Meijun</span><span>Sanxia University</span></div>
+      </div>
+    </div>
+
+    <div class="figures rv">
+      <div class="fig"><b>100+</b><span>原创作品</span></div>
+      <div class="fig"><b>1.4w+</b><span>粉丝增长</span></div>
+      <div class="fig"><b>10w+</b><span>累计浏览</span></div>
+      <div class="fig"><b>4w+</b><span>单篇最高</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 精选作品 ============ -->
+<section id="work" class="sec sec--proj sec--tint">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow">Selected Works</span>
+      <h2 class="h2">精选作品</h2>
+      <p class="sub">点击卡片查看小红书原笔记；短视频卡片可直接在页面内播放。</p>
+    </div>
+
+    <!-- 图文作品 -->
+    <div class="grp rv">
+      <div class="grp__hd"><h3>图文作品</h3><span>10 Notes</span></div>
+      <div class="grid">
+
+        <a class="card" href="https://xhslink.cn/o/6csoqfobw42" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#F6E7EA;--g2:#E6D2D7">
+            <span class="ph">玉兰追花</span>
+            <img class="cover" src="images/note-01.jpg" alt="三大玉兰追花封面" onerror="this.style.display='none'">
+            <span class="tag">赏花攻略</span>
+          </div>
+          <div class="meta">
+            <h4>三大玉兰追花成功 ｜ 附最佳拍摄机位</h4>
+            <p>春日校园赏花，整理拍摄机位，输出校园风景向内容。</p>
+            <p class="duty">选题策划 · 图文排版 · 封面设计</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card" href="https://xhslink.cn/o/6UQso11YEvl" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#F2ECF4;--g2:#DED3E3">
+            <span class="ph">三大樱花</span>
+            <img class="cover" src="images/note-02.jpg" alt="三大樱花封面" onerror="this.style.display='none'">
+            <span class="tag">打卡点位</span>
+          </div>
+          <div class="meta">
+            <h4>目测下个爆火打卡点 ｜ 三大樱花抢先看</h4>
+            <p>樱花季校园打卡内容，挖掘校园网红取景地。</p>
+            <p class="duty">选题策划 · 图文排版 · 封面设计</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card" href="https://xhslink.cn/o/A8uNGBZ0Cyy" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#E8F0E9;--g2:#D3E1D6">
+            <span class="ph">三月春意浓</span>
+            <img class="cover" src="images/note-03.jpg" alt="三月春意浓封面" onerror="this.style.display='none'">
+            <span class="tag">春日校园</span>
+          </div>
+          <div class="meta">
+            <h4>我们像花一样往春天里赶 · 三峡大学×三月春意浓</h4>
+            <p>春日校园主题图文，记录三月春意。</p>
+            <p class="duty">选题策划 · 图文排版 · 封面设计</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card" href="https://xhslink.cn/o/2pnpRiR0COT" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#F7EDD8;--g2:#EADAB6">
+            <span class="ph">速来捡秋</span>
+            <img class="cover" src="images/note-04.jpg" alt="速来捡秋封面" onerror="this.style.display='none'">
+            <span class="tag">秋日打卡</span>
+          </div>
+          <div class="meta">
+            <h4>三峡大学限定打卡点！速来捡秋</h4>
+            <p>秋日银杏主题，捕捉校园秋季氛围感。</p>
+            <p class="duty">选题策划 · 图文排版 · 封面设计</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card" href="https://xhslink.cn/o/Dl2mAeJkMG" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#E6EFF0;--g2:#D0DEE1">
+            <span class="ph">校园四季</span>
+            <img class="cover" src="images/note-05.jpg" alt="校园四季封面" onerror="this.style.display='none'">
+            <span class="tag">风景合集</span>
+          </div>
+          <div class="meta">
+            <h4>谁懂啊！校园的四季才是青春最治愈的滤镜</h4>
+            <p>汇总校园四季风景，传递校园青春氛围感。</p>
+            <p class="duty">文案撰写 · 图文排版 · 封面设计</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card" href="https://xhslink.cn/o/3jNijlbdxbR" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#F5E9EE;--g2:#E6D3DC">
+            <span class="ph">经管楼玉兰</span>
+            <img class="cover" src="images/note-06.jpg" alt="经管楼玉兰封面" onerror="this.style.display='none'">
+            <span class="tag">玉兰春日</span>
+          </div>
+          <div class="meta">
+            <h4>三峡大学春日限定美景来了！经管楼玉兰花开</h4>
+            <p>聚焦校内玉兰盛景，产出春日校园内容。</p>
+            <p class="duty">选题策划 · 图文排版 · 封面设计</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card" href="https://xhslink.cn/o/MjtLCKkyuq" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#F1E8F2;--g2:#E0D3E5">
+            <span class="ph">赏花全攻略</span>
+            <img class="cover" src="images/note-07.jpg" alt="赏花攻略封面" onerror="this.style.display='none'">
+            <span class="tag">赏花攻略</span>
+          </div>
+          <div class="meta">
+            <h4>春日限定 ｜ 三峡大学赏花打卡全攻略</h4>
+            <p>整合校内赏花点位，给同学提供出行打卡参考。</p>
+            <p class="duty">选题策划 · 图文排版 · 封面设计</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card" href="https://xhslink.cn/o/2hUQHoeNEkb" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#F6EBEF;--g2:#E9D7DF">
+            <span class="ph">樱花之约</span>
+            <img class="cover" src="images/note-08.jpg" alt="樱花之约封面" onerror="this.style.display='none'">
+            <span class="tag">樱花图文</span>
+          </div>
+          <div class="meta">
+            <h4>来三大赴一场樱花之约，把春天藏进镜头里</h4>
+            <p>樱花季氛围感校园图文。</p>
+            <p class="duty">选题策划 · 图文排版 · 封面设计</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card" href="https://xhslink.cn/o/8bzRqzlN6GH" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#F7E9E6;--g2:#ECD5CF">
+            <span class="ph">体测通知</span>
+            <img class="cover" src="images/note-09.jpg" alt="体测通知封面" onerror="this.style.display='none'">
+            <span class="tag">校园干货</span>
+          </div>
+          <div class="meta">
+            <h4>三峡大学体测必看 5.15 截止！影响毕业！</h4>
+            <p>重要校园信息科普，面向全校学生传递关键通知。</p>
+            <p class="duty">信息整理 · 文案撰写 · 封面排版</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card" href="https://xhslink.cn/o/7FQcLm7DmBq" target="_blank" rel="noopener">
+          <div class="frame" style="--g1:#F3EBF0;--g2:#E3D4DF">
+            <span class="ph">春天装进甜筒</span>
+            <img class="cover" src="images/note-10.jpg" alt="春天装进甜筒封面" onerror="this.style.display='none'">
+            <span class="tag">春日氛围</span>
+          </div>
+          <div class="meta">
+            <h4>把三峡大学的春天，装进甜筒里啦！</h4>
+            <p>春日校园氛围感短片，镜头记录校园春日光景。</p>
+            <p class="duty">画面调色 · 配文排版</p>
+            <span class="go">查看笔记 <i>→</i></span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- 短视频作品 -->
+    <div class="grp rv">
+      <div class="grp__hd"><h3>短视频作品</h3><span>6 Videos</span></div>
+      <div class="grid">
+
+        <a class="card card--v" href="https://xhslink.cn/o/1tI9MApurxx" target="_blank" rel="noopener" data-video="videos/v1.mp4">
+          <div class="frame" style="--g1:#E8EEF2;--g2:#D3DEE7">
+            <span class="ph">开学第一课</span>
+            <img class="cover" src="images/video-01.jpg" alt="开学第一课封面" onerror="this.style.display='none'">
+            <span class="tag">采访纪实</span>
+            <span class="play"></span>
+          </div>
+          <div class="meta">
+            <h4>开学第一课，听听新生怎么说</h4>
+            <p>开学季采访新生，记录新生入学的真实心声。</p>
+            <p class="duty">脚本 · 现场拍摄 · 后期剪辑 · 字幕包装</p>
+            <span class="go">播放 / 查看 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card card--v" href="https://xhslink.cn/o/3Ps7m415Jov" target="_blank" rel="noopener" data-video="videos/v2.mp4">
+          <div class="frame" style="--g1:#E9F0EC;--g2:#D4E1D9">
+            <span class="ph">新生报到直击</span>
+            <img class="cover" src="images/video-02.jpg" alt="新生报到封面" onerror="this.style.display='none'">
+            <span class="tag">报到 Vlog</span>
+            <span class="play"></span>
+          </div>
+          <div class="meta">
+            <h4>三峡大学新生报到直击！跟着记者团逛校园</h4>
+            <p>新生报到现场纪实，带新生云逛校园。</p>
+            <p class="duty">脚本 · 现场拍摄 · 后期剪辑 · 字幕包装</p>
+            <span class="go">播放 / 查看 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card card--v" href="https://xhslink.cn/o/6ATPM58OajY" target="_blank" rel="noopener" data-video="videos/v3.mp4">
+          <div class="frame" style="--g1:#F4EDE0;--g2:#E7DAC4">
+            <span class="ph">倒计时 50 天</span>
+            <img class="cover" src="images/video-03.jpg" alt="倒计时50天封面" onerror="this.style.display='none'">
+            <span class="tag">备考冲刺</span>
+            <span class="play"></span>
+          </div>
+          <div class="meta">
+            <h4>倒计时50天，我们三峡大学见</h4>
+            <p>面向备考学子的鼓励向短视频内容。</p>
+            <p class="duty">剪辑 · 文案配乐</p>
+            <span class="go">播放 / 查看 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card card--v" href="https://xhslink.cn/o/7R7jRPK1BDq" target="_blank" rel="noopener" data-video="videos/v4.mp4">
+          <div class="frame" style="--g1:#E7EDF3;--g2:#D1DBE6">
+            <span class="ph">AI 手搓报到系统</span>
+            <img class="cover" src="images/video-04.jpg" alt="AI手搓报到系统封面" onerror="this.style.display='none'">
+            <span class="tag">科创纪实</span>
+            <span class="play"></span>
+          </div>
+          <div class="meta">
+            <h4>三大学子太酷了！用 AI 5小时手搓新生入学报到系统</h4>
+            <p>记录校园科创故事，传播学生创新实践案例。</p>
+            <p class="duty">脚本 · 现场拍摄</p>
+            <span class="go">播放 / 查看 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card card--v" href="https://xhslink.cn/o/A7ger0Cdf2C" target="_blank" rel="noopener" data-video="videos/v5.mp4">
+          <div class="frame" style="--g1:#EDF0E6;--g2:#DBE2CE">
+            <span class="ph">爸妈！我在三大</span>
+            <img class="cover" src="images/video-05.jpg" alt="爸妈我在三大封面" onerror="this.style.display='none'">
+            <span class="tag">校园生活</span>
+            <span class="play"></span>
+          </div>
+          <div class="meta">
+            <h4>爸妈！我在三大过得很好！</h4>
+            <p>校园生活纪实短片，传递真实校园日常。</p>
+            <p class="duty">脚本 · 现场拍摄 · 后期剪辑</p>
+            <span class="go">播放 / 查看 <i>→</i></span>
+          </div>
+        </a>
+
+        <a class="card card--v" href="https://xhslink.cn/o/9NLCvROEuAc" target="_blank" rel="noopener" data-video="videos/v6.mp4">
+          <div class="frame" style="--g1:#F5E7EB;--g2:#E6CFD7">
+            <span class="ph">三大蔷薇花墙</span>
+            <img class="cover" src="images/video-06.jpg" alt="蔷薇花墙封面" onerror="this.style.display='none'">
+            <span class="tag">跟风打卡</span>
+            <span class="play"></span>
+          </div>
+          <div class="meta">
+            <h4>在小红书跟风最成功的一次？三大蔷薇花墙</h4>
+            <p>校园蔷薇花墙打卡短视频。</p>
+            <p class="duty">脚本 · 现场拍摄 · 后期剪辑</p>
+            <span class="go">播放 / 查看 <i>→</i></span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 项目详情 ============ -->
+<section id="cases" class="sec sec--case">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow">Case Study</span>
+      <h2 class="h2">项目详情</h2>
+    </div>
+
+    <article class="case rv">
+      <div class="case__media" style="--g1:#EDF2EF;--g2:#D7E3DB">
+        <span class="ph">官方小红书账号运营</span>
+        <img class="cover" src="images/note-01.jpg" alt="官方小红书账号运营" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <p class="case__no">01 / 账号运营</p>
+        <h3>三峡大学官方小红书账号从 0 到 1 搭建与运营</h3>
+        <p>负责账号从 0 到 1 搭建与运营，主导选题策划、内容发布与数据复盘，围绕校园风景、校园生活、重要通知等方向持续产出原创内容，形成稳定的内容节奏与视觉风格。</p>
+        <p class="lbl">本人职责</p>
+        <ul class="duty">
+          <li>主导账号定位与栏目规划，建立选题库与内容排期</li>
+          <li>负责选题策划、文案撰写、封面设计与图文排版</li>
+          <li>跟进内容发布与数据复盘，持续优化内容方向</li>
+        </ul>
+        <div class="nums">
+          <div><b>100+</b><span>原创作品</span></div>
+          <div><b>1.4w+</b><span>粉丝增长</span></div>
+          <div><b>10w+</b><span>累计浏览</span></div>
+        </div>
+        <div class="nums" style="border-top:0;padding-top:0;margin-top:-28px">
+          <div><b>1w+</b><span>点赞收藏</span></div>
+          <div><b>1000+</b><span>转发次数</span></div>
+          <div><b>4w+</b><span>单篇最高</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="case case--r rv">
+      <div class="case__media" style="--g1:#E9F0EC;--g2:#D1E0D8">
+        <span class="ph">校园短视频创作</span>
+        <img class="cover" src="images/video-01.jpg" alt="校园短视频创作" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <p class="case__no">02 / 短视频创作</p>
+        <h3>校园短视频创作与重大活动纪实</h3>
+        <p>独立或参与完成短视频的脚本、拍摄、剪辑全流程，覆盖新生报到、开学典礼、运动会、招聘会等校园重大活动，同时参与出镜采访与现场纪实拍摄。</p>
+        <p class="lbl">本人职责</p>
+        <ul class="duty">
+          <li>参与运动会、招聘会、开学典礼等重大活动拍摄 10+ 场</li>
+          <li>作为出镜记者完成出镜拍摄 10+ 条</li>
+          <li>熟练使用相机、大疆等设备，独立完成活动纪实与校园新闻拍摄</li>
+          <li>负责短视频脚本、拍摄、剪辑与字幕包装全流程</li>
+        </ul>
+        <div class="nums">
+          <div><b>20+</b><span>视频产出</span></div>
+          <div><b>3w+</b><span>全网播放</span></div>
+          <div><b>1000+</b><span>点赞总量</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="case rv">
+      <div class="case__media" style="--g1:#F3EAEF;--g2:#E2D1DB">
+        <span class="ph">图文视觉设计</span>
+        <img class="cover" src="images/note-02.jpg" alt="图文视觉设计" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <p class="case__no">03 / 图文设计</p>
+        <h3>选题策划与图文视觉设计</h3>
+        <p>熟悉小红书流量逻辑与平台调性，围绕校园节点与热点持续策划原创选题，使用可画、醒图完成封面与图文版式设计，统一账号视觉风格，提升内容辨识度。</p>
+        <p class="lbl">本人职责</p>
+        <ul class="duty">
+          <li>累计策划原创选题 50+ 个，撰写文案 50+ 篇</li>
+          <li>设计封面 / 图文 30+ 套，统一账号视觉风格</li>
+          <li>负责图文版式与封面设计，把控内容整体视觉调性</li>
+        </ul>
+        <div class="nums">
+          <div><b>50+</b><span>原创选题</span></div>
+          <div><b>50+</b><span>文案撰写</span></div>
+          <div><b>30+</b><span>封面套数</span></div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ 关于 ============ -->
+<section id="about" class="sec sec--about sec--tint">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow">About</span>
+      <h2 class="h2">关于我</h2>
+    </div>
+    <div class="about">
+      <div class="about__txt rv">
+        <p>我是杨美郡，三峡大学汉语言文学专业本科生，深耕校园新媒体领域。从校园官方小红书账号的搭建开始，我完整参与了选题策划、文案撰写、封面设计、图文排版、视频拍摄与剪辑的内容生产链路。</p>
+        <p>在担任三峡大学记者团小红书运营部 · 设计部主席期间，我负责官方账号从 0 到 1 的搭建与运营，累计发布原创作品 100+ 篇，粉丝增长至 1.4w+，部分作品被中国青年报选用。同时参与校内外重大活动拍摄 10+ 场，独立完成活动纪实与校园新闻拍摄。</p>
+        <p>我希望能够加入中国大学生在线小红书工作室，把在校园宣传中积累的内容经验与平台理解，转化为更多优质的大学生向内容。</p>
+        <p class="about__quote">用内容记录校园，<br>用设计传递温度。</p>
+      </div>
+      <div class="about__cards rv">
+        <div class="about__card">
+          <h4>内容方向</h4>
+          <p>校园风景 · 校园生活 · 校园通知 · 校园人物 · 校园科创</p>
+        </div>
+        <div class="about__card">
+          <h4>我的角色</h4>
+          <p>选题策划 · 文案撰写 · 封面与图文设计 · 短视频拍摄剪辑 · 团队统筹</p>
+        </div>
+        <div class="about__card">
+          <h4>申请方向</h4>
+          <p>中国大学生在线小红书工作室 · 内容策划与视觉设计方向</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 经历 ============ -->
+<section id="exp" class="sec sec--exp">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow">Experience</span>
+      <h2 class="h2">工作经历</h2>
+    </div>
+    <div class="tl rv">
+      <div class="tl__i">
+        <div class="tl__hd">
+          <h3>三峡大学记者团 ｜ 小红书运营部 · 设计部主席</h3>
+          <span>2025.03 — 至今</span>
+        </div>
+        <p class="tl__sub">校园官方小红书账号运营 · 图文视觉设计 · 短视频制作 · 团队管理</p>
+
+        <div class="tl__b">
+          <h4>官号运营</h4>
+          <p>负责三峡大学官方小红书账号从 0 到 1 搭建与运营，主导选题策划、内容发布、数据复盘；累计发布原创作品 100+ 篇，粉丝增长至 1.4w+，累计浏览量 10w+，点赞收藏 1w+，转发 1000+ 次，单篇最高浏览量 4w+；“三峡大学入驻小红书”相关笔记浏览量破 3w；部分作品被中国青年报选用。</p>
+        </div>
+        <div class="tl__b">
+          <h4>摄影摄像</h4>
+          <p>参与三峡大学运动会、三峡大学招聘会、开学典礼等校内外重大活动拍摄 10+ 场；作为出镜记者完成出镜拍摄 10+ 条；熟练使用相机、大疆等设备，独立完成活动纪实与校园新闻拍摄。</p>
+        </div>
+        <div class="tl__b">
+          <h4>作品策划</h4>
+          <p>熟悉小红书流量逻辑与平台调性，负责选题策划、文案撰写、封面设计、图文排版；累计策划原创选题 50+ 个，撰写文案 50+ 篇，设计封面 / 图文 30+ 套，统一账号视觉风格，提升内容辨识度。</p>
+        </div>
+        <div class="tl__b">
+          <h4>视频制作</h4>
+          <p>独立 / 参与完成短视频脚本、拍摄、剪辑全流程，累计产出视频 20+ 条，全网播放量 3w+，点赞总量破千；作品获湖北省高校新闻奖，个人获评三峡大学新闻宣传“先进个人”。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 技能 ============ -->
+<section id="skills" class="sec sec--skill sec--tint">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow">Skills</span>
+      <h2 class="h2">专业技能</h2>
+    </div>
+    <div class="skills rv">
+      <div class="skill">
+        <h3>内容策划</h3>
+        <div class="chips">
+          <span class="k">小红书选题策划</span><span class="k">文案撰写</span>
+          <span>热点捕捉</span><span>内容排期</span><span>数据复盘</span>
+        </div>
+      </div>
+      <div class="skill">
+        <h3>图文视觉设计</h3>
+        <div class="chips">
+          <span class="k">可画</span><span class="k">醒图</span>
+          <span>图文版式</span><span>封面设计</span><span>视觉风格统一</span>
+        </div>
+      </div>
+      <div class="skill">
+        <h3>短视频制作</h3>
+        <div class="chips">
+          <span class="k">脚本撰写</span><span class="k">现场拍摄</span><span class="k">剪辑</span>
+          <span>字幕包装</span><span>相机 / 大疆设备</span>
+        </div>
+      </div>
+      <div class="skill">
+        <h3>办公工具</h3>
+        <div class="chips">
+          <span class="k">Office 办公套件</span><span>Word</span><span>Excel</span><span>PowerPoint</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="head rv" style="margin-top:64px;margin-bottom:24px">
+      <h2 class="h2" style="font-size:22px">荣誉证书</h2>
+    </div>
+    <ul class="honors rv">
+      <li class="honor">全国计算机二级</li>
+      <li class="honor">普通话二级甲等</li>
+      <li class="honor">大学英语四级 CET-6</li>
+      <li class="honor">2026 学年一等奖学金</li>
+      <li class="honor">2025 年度湖北省高校新闻奖三等奖</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 简历 ============ -->
+<section id="resume" class="sec">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow">Resume</span>
+      <h2 class="h2">单页简历</h2>
+      <p class="sub">点击下方按钮可导出为 PDF。</p>
+    </div>
+
+    <div class="resume rv">
+      <div class="resume__in">
+
+        <div class="rhead">
+          <div class="rphoto" style="--g1:#F1EDE6;--g2:#E0D9CC">
+            <span class="ph" style="font-size:10px">证件照</span>
+            <img class="cover" src="images/zhengjianzhao.jpg" alt="杨美郡证件照" onerror="this.style.display='none'">
+          </div>
+          <div>
+            <h3>杨美郡</h3>
+            <p>三峡大学 · 汉语言文学专业本科生 ｜ 校园新媒体创作者</p>
+          </div>
+        </div>
+
+        <div class="rsec">
+          <h4>个人简介</h4>
+          <p>三峡大学汉语言文学专业本科生，深耕校园新媒体领域。熟悉小红书平台传播逻辑，具备内容策划、图文视觉设计、短视频制作、团队管理完整实践经验。希望能够加入中国大学生在线小红书工作室，发挥校园宣传实践能力，产出优质大学生向内容。</p>
+        </div>
+
+        <div class="rsec">
+          <h4>专业技能</h4>
+          <ul>
+            <li>小红书选题策划、文案撰写、热点捕捉</li>
+            <li>可画、醒图，图文版式、封面设计</li>
+            <li>短视频：脚本撰写、现场拍摄、剪辑、字幕包装</li>
+            <li>办公工具：Office 办公套件</li>
+          </ul>
+        </div>
+
+        <div class="rsec">
+          <h4>工作经历</h4>
+          <p style="font-weight:600;color:var(--ink);margin-bottom:10px">三峡大学记者团 ｜ 小红书运营部 · 设计部主席 ｜ 2025-03 至今</p>
+          <ul>
+            <li>官号运营：负责三峡大学官方小红书账号从 0 到 1 搭建与运营，累计发布原创作品 100+ 篇，粉丝增长至 1.4w+，累计浏览量 10w+，点赞收藏 1w+，转发 1000+ 次，单篇最高浏览量 4w+；部分作品被中国青年报选用。</li>
+            <li>摄影摄像：参与校内外重大活动拍摄 10+ 场，作为出镜记者完成出镜拍摄 10+ 条，熟练使用相机、大疆等设备。</li>
+            <li>作品策划：策划原创选题 50+ 个，撰写文案 50+ 篇，设计封面 / 图文 30+ 套，统一账号视觉风格。</li>
+            <li>视频制作：独立 / 参与完成短视频 20+ 条，全网播放量 3w+，点赞总量破千；作品获湖北省高校新闻奖，个人获评三峡大学新闻宣传“先进个人”。</li>
+          </ul>
+        </div>
+
+        <div class="rsec">
+          <h4>荣誉证书</h4>
+          <ul>
+            <li>全国计算机二级</li>
+            <li>普通话二级甲等</li>
+            <li>大学英语四级 CET-6</li>
+            <li>2026 学年一等奖学金</li>
+            <li>2025 年度湖北省高校新闻奖三等奖</li>
+          </ul>
+        </div>
+
+        <div class="rbtns">
+          <button class="btn btn-p" onclick="window.print()">导出为 PDF / 打印</button>
+          <a class="btn btn-g" href="#contact">联系我</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 联系 ============ -->
+<section id="contact" class="sec sec--contact">
+  <div class="wrap">
+    <div class="contact rv">
+      <span class="eyebrow">Contact</span>
+      <h2>期待与你一起做内容</h2>
+      <p>中国大学生在线小红书工作室 · 内容策划 / 视觉设计方向</p>
+      <div class="citems">
+        <a class="citem" href="tel:15872720536">📱　158-7272-0536</a>
+        <a class="citem" href="mailto:1493498922@qq.com">✉️　1493498922@qq.com</a>
+        <a class="citem" href="https://xhslink.cn/o/6csoqfobw42" target="_blank" rel="noopener">📕　小红书主页</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">© 2026 Yang Meijun · Portfolio</div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  var nav = document.getElementById('nav');
+  function sc(){ nav.classList.toggle('on', window.scrollY > 8); }
+  window.addEventListener('scroll', sc, {passive:true}); sc();
+
+  var bg = document.getElementById('burger'), mm = document.getElementById('mmenu');
+  function closeM(){ mm.classList.remove('on'); bg.classList.remove('on'); bg.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+  function openM(){ mm.classList.add('on'); bg.classList.add('on'); bg.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
+  bg.addEventListener('click', function(){ mm.classList.contains('on') ? closeM() : openM(); });
+  Array.prototype.forEach.call(mm.querySelectorAll('a'), function(a){ a.addEventListener('click', closeM); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 900 && mm.classList.contains('on')) closeM(); });
+
+  Array.prototype.forEach.call(document.querySelectorAll('.card[data-video]'), function(card){
+    card.addEventListener('click', function(e){
+      if(card.dataset.playing === '1') return;
+      var src = card.getAttribute('data-video');
+      if(!src) return;
+      e.preventDefault();
+
+      var frame = card.querySelector('.frame');
+      var v = document.createElement('video');
+      v.src = src;
+      v.controls = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      v.setAttribute('playsinline','');
+      v.setAttribute('webkit-playsinline','');
+      v.preload = 'metadata';
+
+      v.addEventListener('error', function(){
+        card.dataset.playing = '';
+        window.open(card.getAttribute('href'), '_blank');
+      });
+
+      frame.appendChild(v);
+      card.dataset.playing = '1';
+
+      Array.prototype.forEach.call(document.querySelectorAll('video'), function(o){
+        if(o !== v && !o.paused) o.pause();
+      });
+
+      var p = v.play();
+      if(p && p.catch) p.catch(function(){});
+    });
+  });
+
+  var rv = Array.prototype.slice.call(document.querySelectorAll('.rv'));
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.06, rootMargin:'0px 0px -60px 0px'});
+    rv.forEach(function(el){ io.observe(el); });
+  } else {
+    rv.forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
+
+</body>
+</html>
